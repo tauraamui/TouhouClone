@@ -4,15 +4,15 @@ import com.sun.javafx.tk.FontMetrics;
 import game.Game;
 import game.stage.Stage;
 import game.stage.StageManager;
-import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
+import userinterface.Window;
 
 import java.util.ArrayList;
 
 public class StageMenu {
-	
+
 	private StageManager stageManager;
 	private int selectionIndex = 0;
 	private Font stageTitleFont = Font.font("Calibri");
@@ -34,14 +34,16 @@ public class StageMenu {
 		lastStageListIndexSwitch = System.currentTimeMillis();
 		populateListToRender();
 	}
-	
+
 	public void update() {
+		/*
 		if (Game.gameinput.Keyboard.Down.Clicked) incListIndex();
 		if (Game.gameinput.Keyboard.Up.Clicked) decListIndex();
-		
+		*/
 		checkSelectionIndexBounds();
 		populateListToRender();
-		
+
+		/*
 		if (Game.gameinput.Keyboard.Enter.Clicked) {
 			if (stages[selectionIndex].isUnlocked()) {
 				stageManager.setStage(selectionIndex);
@@ -50,6 +52,7 @@ public class StageMenu {
 				System.out.println(stages[selectionIndex].getTitle()+" (is locked)");
 			}
 		}
+		*/
 	}
 
 	private void checkSelectionIndexBounds() {
@@ -59,53 +62,53 @@ public class StageMenu {
 //		else if (selectionIndex < 0) selectionIndex = stages.length-1;
 		lastStageListIndexSwitch = System.currentTimeMillis();
 	}
-	
+
 	private void incListIndex() {
 		selectionIndex++;
 		populateListToRender();
 		lastStageListIndexSwitch = System.currentTimeMillis();
 	}
-	
+
 	private void decListIndex() {
 		selectionIndex--;
 		populateListToRender();
 		lastStageListIndexSwitch = System.currentTimeMillis();
 	}
-	
-	public void render(Canvas canvas) {
-		canvas.getGraphicsContext2D().setFill(Color.DARKGREY);
-		canvas.getGraphicsContext2D().fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-		canvas.getGraphicsContext2D().setFont();
+	public void render(GraphicsContext graphicsContext) {
 
-		canvas.setFont(stageTitleFont);
-		fontMetrics = canvas.getFontMetrics();
+		graphicsContext.setFill(Color.DARKGREY);
+		graphicsContext.fillRect(0, 0, graphicsContext.getCanvas().getWidth(), graphicsContext.getCanvas().getHeight());
 
+		graphicsContext.setFont(stageTitleFont);
+		/*
+		fontMetrics = graphicsContext.getFontMetrics();
 		int selectionBoxX = 0;
 		int selectionBoxY = 0;
 		int titleWidth = fontMetrics.stringWidth(stages[selectionIndex].getTitle());
 
-		canvas.setColor(Color.BLUE);
-		if (stages[selectionIndex].isLocked()) canvas.setColor(Color.RED);
-		
+		graphicsContext.setFill(Color.BLUE);
+		if (stages[selectionIndex].isLocked()) graphicsContext.setColor(Color.RED);
+
 		selectionBoxX = Window.Width/2-(fontMetrics.stringWidth(stages[selectionIndex].getTitle())/2);
 		selectionBoxY = 30+(fontMetrics.getHeight()*(selectionIndex-1)+1);
-		
-		canvas.fillRect(selectionBoxX-5, selectionBoxY+2, titleWidth+10, fontMetrics.getHeight()+2);
-		canvas.setColor(Color.WHITE);
-		
+
+		graphicsContext.fillRect(selectionBoxX-5, selectionBoxY+2, titleWidth+10, fontMetrics.getHeight()+2);
+		graphicsContext.setColor(Color.WHITE);
+		*/
+
 //		for (int i = startListRender; i < endListRender; i++) {
-//			canvas.drawString(stages[i].getTitle(), Window.Width/2-(fontMetrics.stringWidth(stages[i].getTitle())/2), listTitleHeightSpacing+(fontMetrics.getHeight()*i));
+//			gc.drawString(stages[i].getTitle(), Window.Width/2-(fontMetrics.stringWidth(stages[i].getTitle())/2), listTitleHeightSpacing+(fontMetrics.getHeight()*i));
 //		}
-		
+
 		for (int i = 0; i < stageList.size(); i++) {
 			Stage stage = stageList.get(i);
-			canvas.drawString(stage.getTitle(), Window.Width/2-(fontMetrics.stringWidth(stage.getTitle())/2), listTitleHeightSpacing+(fontMetrics.getHeight()*i));
+			//graphicsContext.drawString(stage.getTitle(), Window.Width/2-(fontMetrics.stringWidth(stage.getTitle())/2), listTitleHeightSpacing+(fontMetrics.getHeight()*i));
 //			System.out.println(30+(fontMetrics.getHeight()*i));
 		}
-		
+
 //		for (int i = 0; i < stages.length; i++) {
-//			canvas.drawString(stages[i].getTitle(), Window.Width/2-(fontMetrics.stringWidth(stages[i].getTitle())/2), listTitleHeightSpacing+(fontMetrics.getHeight()*i));
+//			gc.drawString(stages[i].getTitle(), Window.Width/2-(fontMetrics.stringWidth(stages[i].getTitle())/2), listTitleHeightSpacing+(fontMetrics.getHeight()*i));
 //			System.out.println(30+(fontMetrics.getHeight()*i));
 //		}
 	}
@@ -117,7 +120,7 @@ public class StageMenu {
 		listHeight = 0;
 		if (fontMetrics != null) {
 			for (int i = startIndex; i < stages.length; i++) {
-				heightSize += fontMetrics.getHeight();
+				heightSize += 10;
 				if (heightSize >= Window.Height-30) {
 					stageListEnd = i;
 					break;
@@ -138,7 +141,7 @@ public class StageMenu {
 		int heightTotal = listTitleHeightSpacing;
 		int miny = 20;
 		int maxy = Window.Height - miny;
-		int fontHeight = stageTitleFont.getSize();
+		int fontHeight = 10;
 		int totalToAdd = (fontHeight + listTitleHeightSpacing);
 		
 		while (true) {

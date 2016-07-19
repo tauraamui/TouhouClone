@@ -1,22 +1,19 @@
 package graphics.animation;
 
-import game.Game;
-
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 
 public class Animation {
 
-	protected BufferedImage[] frames;
+	protected Image[] frames;
 	protected int frameIndex = 0;
 	protected long startTime = System.currentTimeMillis();
 
 	public Animation() {
-		frames = new BufferedImage[] {null};
+		frames = new Image[] {null};
 	}
 
-	public Animation(BufferedImage[] frames) {
+	public Animation(Image[] frames) {
 		this.frames = frames;
 	}
 
@@ -31,16 +28,16 @@ public class Animation {
 		}
 	}
 	
-	public int getFrameWidth() {
+	public double getFrameWidth() {
 		return frames[frameIndex].getWidth();
 	}
 	
-	public int getFrameHeight() {
+	public double getFrameHeight() {
 		return frames[frameIndex].getHeight();
 	}
 	
-	public void render(Graphics canvas, int x, int y) {
-		canvas.drawImage(frames[frameIndex], x, y, Game.Renderer);
+	public void render(GraphicsContext canvas, int x, int y) {
+		canvas.drawImage(frames[frameIndex], x, y);
 	}
 	
 	public void reset() {

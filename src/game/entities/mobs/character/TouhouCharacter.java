@@ -1,6 +1,7 @@
 package game.entities.mobs.character;
 
 import graphics.animation.Animation;
+import javafx.scene.image.Image;
 import utils.graphics.TileSheet;
 import utils.resources.ResourceHandler;
 
@@ -15,7 +16,7 @@ public abstract class TouhouCharacter {
 		REIMU_HAKUREI;
 	}
 
-	public BufferedImage sprite;
+	public Image sprite;
 	public TileSheet spriteSheet;
 	public Animation movingForwardAnimation;
 	public Animation movingRightAnimation;

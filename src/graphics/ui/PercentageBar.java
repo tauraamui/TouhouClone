@@ -1,11 +1,7 @@
 package graphics.ui;
 
-import game.entities.mobs.Mob;
-
-import java.awt.Color;
-import java.awt.Graphics;
-
-import utils.Vector2;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 public class PercentageBar {
 	
@@ -17,11 +13,10 @@ public class PercentageBar {
 		this.percentage = percentage;
 	}
 
-	public void render(Graphics canvas, int x, int y) {
-		canvas.setColor(Color.DARK_GRAY);
-		canvas.fillRect(x, y, totalLength, height);
-		canvas.setColor(Color.MAGENTA);
-		canvas.fillRect(x, y, (int)percentage, height);
+	public void render(GraphicsContext graphicsContext, int x, int y) {
+		graphicsContext.setFill(Color.DARKGRAY);
+		graphicsContext.fillRect(x, y, totalLength, height);
+		graphicsContext.setFill(Color.MAGENTA);
+		graphicsContext.fillRect(x, y, percentage, height);
 	}
-	
 }

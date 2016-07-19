@@ -4,6 +4,7 @@ import game.Game;
 import game.entities.mobs.Enemy;
 import game.entities.projectiles.ProjectileEmitter;
 import game.stage.Stage;
+import userinterface.Window;
 import utils.Timing;
 import utils.Vector2;
 import utils.resources.ResourceHandler;

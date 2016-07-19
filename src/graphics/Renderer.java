@@ -13,8 +13,15 @@ public class Renderer {
 	
 	public long totalRenderTime;
 	private Canvas canvas = new Canvas();
+	private GraphicsContext graphicsContext;
 
 	public Renderer() {
-		setFocusable(true);
+		graphicsContext = canvas.getGraphicsContext2D();
 	}
+
+	public void render() {
+		Game.render(graphicsContext);
+	}
+
+	public Canvas getCanvas() {return canvas;}
 }

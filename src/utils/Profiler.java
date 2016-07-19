@@ -17,6 +17,7 @@ Code is provided with no warranty. Using somebody else's code and bitching when 
 package utils;
 
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class Profiler {
@@ -69,7 +70,7 @@ public class Profiler {
         currentTiming %= timings.length;
     }
     
-    public static void render(Canvas canvas) {
+    public static void render(GraphicsContext canvas) {
     	x = setX;
         for (short i=0; i<timings.length; i++) {
             int 
@@ -78,8 +79,8 @@ public class Profiler {
             if (i>currentTiming) x++;
             
             for (short time : timings[i].timings) {
-                canvas.getGraphicsContext2D().setFill(timingColours[timing++]);
-                canvas.getGraphicsContext2D().strokeLine(x, y, x, y+time);
+                canvas.setFill(timingColours[timing++]);
+                canvas.strokeLine(x, y, x, y+time);
                 y += time+1;
             }
             x = setX+i;

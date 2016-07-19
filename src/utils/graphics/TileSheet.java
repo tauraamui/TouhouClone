@@ -16,8 +16,9 @@ Code is provided with no warranty. Using somebody else's code and bitching when 
 
 package utils.graphics;
 
-import java.awt.Color;
-import java.awt.image.BufferedImage;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,16 +26,19 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 
 public class TileSheet {
-	public BufferedImage SpriteSheet;
+	public Image SpriteSheet;
    
-	private int spritewidth, spriteheight, MarginX, MarginY;
+	private double spritewidth, spriteheight, MarginX, MarginY;
 	public int Rows, Columns;
    
 	public TileSheet(int width, int height, int margin, InputStream iostream) {
+		/*
 		try {
 			if (iostream != null) {
-				SpriteSheet = ImageIO.read(iostream);
-				ImageTools.makeColorTransparent(SpriteSheet, new Color(SpriteSheet.getRGB(1, 1)));
+				SpriteSheet = new Image(iostream);
+				SpriteSheet.getPixelReader().getArgb(1 , 1);
+				//// FIXME: 19/07/2016 need to replace this code to make part of the sprite transparent
+				//ImageTools.makeColorTransparent(SpriteSheet, new Color(SpriteSheet.getRGB(1, 1)));
 //				BufferedImage SpriteSheetTemp = new BufferedImage(SpriteSheet.getWidth(), SpriteSheet.getHeight(), BufferedImage.TYPE_INT_ARGB);
 //				for (int x = 0; x < SpriteSheet.getWidth(); x++) {
 //					for (int y = 0; y < SpriteSheet.getHeight(); y++) {
@@ -57,11 +61,13 @@ public class TileSheet {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		*/
 	}
 	
 	public TileSheet(int width, int height, int margin, String url) throws IOException {
-		SpriteSheet = ImageIO.read(new File(url));
-		BufferedImage SpriteSheetTemp = new BufferedImage(SpriteSheet.getWidth(), SpriteSheet.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		/*
+		SpriteSheet = new Image(url);
+		Image SpriteSheetTemp = new Image(SpriteSheet.getWidth(), SpriteSheet.getHeight());
 		for (int x = 0; x < SpriteSheet.getWidth(); x++) {
 			for (int y = 0; y < SpriteSheet.getHeight(); y++) {
 				if (SpriteSheet.getRGB(x, y) == 0) {
@@ -79,8 +85,10 @@ public class TileSheet {
 		height = SpriteSheet.getHeight();
 		Rows = (int)Math.floor(height/(spriteheight+margin));
 		Columns = (int)Math.floor(width/(spritewidth+margin));
+		*/
 	}
 	public TileSheet(int width, int height, int marginx, int marginy, String url) throws IOException {
+		/*
 		SpriteSheet = ImageIO.read(new File(url));
 		BufferedImage SpriteSheetTemp = new BufferedImage(SpriteSheet.getWidth(), SpriteSheet.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		for (int x = 0; x < SpriteSheet.getWidth(); x++) {
@@ -101,10 +109,11 @@ public class TileSheet {
 		height = SpriteSheet.getHeight();
 		Rows = (int)Math.floor(height/(spriteheight+marginx));
 		Columns = (int)Math.floor(width/(spritewidth+marginy));
+		*/
 	}
 	
-	public BufferedImage getSprite(int x, int y) {
-		if (x >= 0 && x < Columns && y >= 0 && y < Rows) return SpriteSheet.getSubimage((x * spritewidth) + MarginX*x, (y * spriteheight) + MarginY*y, spritewidth, spriteheight);
+	public Image getSprite(int x, int y) {
+		//if (x >= 0 && x < Columns && y >= 0 && y < Rows) return SpriteSheet.getSubimage((x * spritewidth) + MarginX*x, (y * spriteheight) + MarginY*y, spritewidth, spriteheight);
 		return null;
 	}	
 }

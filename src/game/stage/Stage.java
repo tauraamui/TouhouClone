@@ -9,13 +9,14 @@ import game.entities.projectiles.ProjectileEmitter;
 import game.stage.features.Physics;
 import graphics.ui.StageInfoPanel;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import userinterface.Window;
 import utils.Random2;
 
 public class Stage {
@@ -25,7 +26,7 @@ public class Stage {
 	protected boolean locked = true;
 	protected StageBackground stageBackground;
 	protected String stageBackgroundPath;
-	protected BufferedImage titleScreenBackground;
+	protected Image titleScreenBackground;
 	protected String titleScreenBackgroundPath;
 	protected Random2 randomGenerator = new Random2();
 	protected ArrayList<Entity> entities =  new ArrayList<Entity>();
@@ -94,27 +95,27 @@ public class Stage {
 		}
 	}
 	
-	public void render(Canvas canvas) {
-		player.render(canvas);
+	public void render(GraphicsContext graphicsContext) {
+		player.render(graphicsContext);
 //		for (int i = 0; i < entities.size(); i++) {
 //			entities.get(i).render(canvas);
 //		}
 		for (int i = 0; i < mobs.size(); i++) 
-			mobs.get(i).render(canvas);
+			mobs.get(i).render(graphicsContext);
 		
 		for (int i = 0; i < bullets.size(); i++)
-			bullets.get(i).render(canvas);
+			bullets.get(i).render(graphicsContext);
 		
 		for (int i = 0; i < projectileEmitters.size(); i++)
-			projectileEmitters.get(i).render(canvas);
+			projectileEmitters.get(i).render(graphicsContext);
 
-		stageInfoPanel.render(canvas);
+		stageInfoPanel.render(graphicsContext);
 		if (Game.isPaused()) {
-			canvas.setFont(new Font("Calibri", Font.BOLD, 40));
-			canvas.setColor(Color.LIGHT_GRAY);
-			int textWidth = canvas.getFontMetrics().stringWidth("PAUSED");
-			int textHeight = canvas.getFontMetrics().getHeight();
-			canvas.drawString("PAUSED", (Window.Width/2)-(textWidth/2), (Window.Height/2)-(textHeight/2));
+			graphicsContext.setFont(Font.getDefault());
+			graphicsContext.setFill(Color.BLUE);
+			double textWidth = graphicsContext.getFont().getSize();
+			double textHeight = graphicsContext.getFont().getSize();
+			graphicsContext.strokeText("PAUSED", (Window.Width/2)-(textWidth/2), (Window.Height/2)-(textHeight/2));
 		}
 	}
 	
@@ -149,7 +150,7 @@ public class Stage {
 		return title;
 	}
 	
-	public BufferedImage getTitleScreenBackground() {
+	public Image getTitleScreenBackground() {
 		return titleScreenBackground;
 	}
 	

@@ -5,9 +5,11 @@ import game.entities.Entity;
 import game.entities.mobs.Player;
 import game.stage.stages.*;
 import graphics.ui.menu.StageMenu;
-import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import userinterface.Window;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class StageManager {
@@ -117,29 +119,29 @@ public class StageManager {
 		}
 	}
 	
-	public void render(Canvas canvas) {
+	public void render(GraphicsContext graphicsContext) {
 		if (stageMenuOpen) {
-			stageMenu.render(canvas);
+			stageMenu.render(graphicsContext);
 			return;
 		}
 		if (currentStage == null) return;
 		if (stageTransitioning) {
 			if (!stageTransitioningTimeOver()) {
-				canvas.fillRect(0, 0, Window.Width, Window.Height);
+				graphicsContext.fillRect(0, 0, Window.Width, Window.Height);
 				if (!(currentStage.getTitleScreenBackground() == null)) {
-					canvas.drawImage(currentStage.getTitleScreenBackground(), 0, 0, Window.Width, Window.Height, Game.Renderer);
+					graphicsContext.drawImage(currentStage.getTitleScreenBackground(), 0, 0, Window.Width, Window.Height);
 				} else {
-					canvas.setColor(Color.WHITE);
-					canvas.fillRect(0, 0, Window.Width, Window.Height);
+					graphicsContext.setFill(Color.WHITE);
+					graphicsContext.fillRect(0, 0, Window.Width, Window.Height);
 				}
-				canvas.setColor(Color.BLACK);
-				canvas.setFont(new Font("Calabri", Font.CENTER_BASELINE, 20));
+				graphicsContext.setFill(Color.BLACK);
+				graphicsContext.setFont(Font.getDefault());
 				String stageTitle = currentStage.getTitle();
-				FontMetrics fontMetrics = canvas.getFontMetrics();
-				canvas.drawString(stageTitle, Window.Width/2-fontMetrics.stringWidth(stageTitle)/2, (Window.Height/2)-10);
+
+				graphicsContext.strokeText(stageTitle, Window.Width/2-graphicsContext.getFont().getSize()/2, (Window.Height/2)-10);
 			}
 		} else {
-			currentStage.render(canvas);
+			currentStage.render(graphicsContext);
 		}
 	}
 	

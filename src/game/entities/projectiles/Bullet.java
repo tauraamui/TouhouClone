@@ -3,12 +3,10 @@ package game.entities.projectiles;
 import game.Game;
 import game.entities.Entity;
 import game.physics.AABB;
-import game.stage.Stage;
-import game.stage.features.Physics;
 
-import java.awt.Color;
-import java.awt.Graphics;
 
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import utils.Vector2;
 
 public class Bullet extends Projectile {
@@ -44,11 +42,11 @@ public class Bullet extends Projectile {
 	}
 	
 	@Override
-	public void render(Graphics canvas) {
-		canvas.setColor(color);
-		canvas.fillOval((int)X, (int)Y, getWidth(), getHeight());
+	public void render(GraphicsContext graphicsContext) {
+		graphicsContext.setFill(color);
+		graphicsContext.fillOval(X, Y, (int)getWidth(), (int)getHeight());
 		if (Game.debugMode) {
-			getBoundingBox().render(canvas);
+			getBoundingBox().render(graphicsContext);
 		}
 	}
 }

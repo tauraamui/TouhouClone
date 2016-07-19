@@ -2,10 +2,12 @@ package graphics.ui;
 
 import game.stage.Stage;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
 
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import userinterface.Window;
 import utils.Vector2;
 
 public class StageInfoPanel {
@@ -14,8 +16,8 @@ public class StageInfoPanel {
 	private int Width;
 	private int Height;
 	private Stage stage;
-	private Font stageTitleFont = new Font("Calibri", Font.BOLD, 12);
-	private Font stageInfoTextFont = new Font("Calibri", Font.PLAIN, 12);
+	private Font stageTitleFont = Font.getDefault();
+	private Font stageInfoTextFont = Font.getDefault();
 	
 	private PercentageBar playerHealthBar = new PercentageBar();
 	private PercentageBar stageProgressBar = new PercentageBar();
@@ -32,26 +34,26 @@ public class StageInfoPanel {
 		stageProgressBar.setPercentage(stage.getStageProgress());
 	}
 	
-	public void render(Graphics canvas) {
+	public void render(GraphicsContext graphicsContext) {
 		//info panel itself
-		canvas.setColor(Color.BLACK);
-		canvas.fillRect((int)pos.X, (int)pos.Y, Width, Height);
-		
+		graphicsContext.setFill(Color.BLACK);
+		graphicsContext.fillRect(pos.X, pos.Y, Width, Height);
+
 		//stage title stuff
-		canvas.setColor(Color.RED);
-		canvas.setFont(stageTitleFont);
-		canvas.drawString(stage.getTitle(), (int)pos.X+5, 15);
-		
+		graphicsContext.setFill(Color.RED);
+		graphicsContext.setFont(Font.getDefault());
+		graphicsContext.strokeText(stage.getTitle(), pos.X+5, 15);
+
 		//stage progress stuff
-		canvas.setColor(Color.white);
-		canvas.setFont(stageInfoTextFont);
-		canvas.drawString("P", (int)pos.X+10, Height-93);
-		stageProgressBar.render(canvas, (int)pos.X+canvas.getFontMetrics().stringWidth("P")+15, Height-100);
-		
+		graphicsContext.setFill(Color.WHITE);
+		graphicsContext.setFont(stageInfoTextFont);
+		graphicsContext.strokeText("P", pos.X+10, Height-93);
+		stageProgressBar.render(graphicsContext, (int)pos.X + (int)graphicsContext.getFont().getSize()+15, Height-100);
+
 		//health stuff
-		canvas.setColor(Color.WHITE);
-		canvas.setFont(stageInfoTextFont);
-		canvas.drawString("H", (int)pos.X+10, Height-73);
-		playerHealthBar.render(canvas, (int)pos.X+canvas.getFontMetrics().stringWidth("H")+15, Height-80);
+		graphicsContext.setFill(Color.WHITE);
+		graphicsContext.setFont(stageInfoTextFont);
+		graphicsContext.strokeText("H", pos.X+10, Height-73);
+		playerHealthBar.render(graphicsContext, (int)pos.X + (int)graphicsContext.getFont().getSize()+15, Height-80);
 	}
 }

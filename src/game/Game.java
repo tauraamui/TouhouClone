@@ -1,17 +1,13 @@
 package game;
 
-import com.sun.xml.internal.bind.v2.TODO;
 import game.stage.Stage;
 import game.stage.StageManager;
 import graphics.Renderer;
 
-import java.awt.Graphics;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import userinterface.io.GameInputHandler;
 import utils.Profiler;
 import utils.Profiler.TimingBar;
 import utils.Timing;
@@ -21,8 +17,7 @@ public class Game extends TimerTask implements Runnable {
 	public static float DELTATIME = 0.16F;
 	public static StageManager stageManager = new StageManager();
 	//public static GameInputHandler gameinput = new GameInputHandler(true, Renderer);
-	public static Canvas canvas = new Canvas();
-	public static GraphicsContext renderer = canvas.getGraphicsContext2D();
+	public static Renderer Renderer = new Renderer();
 	//	private static long tStart;
 //	private long lastTime = tStart = System.nanoTime();
 	private double unprocessed = 0;
@@ -83,7 +78,7 @@ public class Game extends TimerTask implements Runnable {
 					if (currentStage != null) timingBar.setWorldTickTiming((short)(currentStage.totalTickTime/Profiler.scale));
 					Profiler.newFrame(timingBar);
 				}
-				Renderer.repaint();
+				Renderer.render();
 			}
 			
 			try { Thread.sleep(2); } catch (InterruptedException e) { e.printStackTrace(); }
@@ -126,7 +121,7 @@ public class Game extends TimerTask implements Runnable {
 		Game.gameOver = gameOver;
 	}
 	
-	public static void render() {
+	public static void render(GraphicsContext canvas) {
 		stageManager.render(canvas);
 		if (Game.debugMode) {
 			Profiler.render(canvas);

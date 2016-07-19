@@ -2,7 +2,6 @@ package game.stage.stages;
 
 import utils.resources.ResourceHandler;
 import game.Game;
-import game.entities.mobs.Player;
 import game.entities.mobs.StageEnemy;
 import game.stage.Stage;
 

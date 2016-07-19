@@ -6,12 +6,10 @@ import game.entities.projectiles.Projectile;
 import game.physics.AABB;
 import game.stage.Stage;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
-import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import utils.Vector2;
 
 public class Mob extends Entity {
@@ -48,10 +46,10 @@ public class Mob extends Entity {
 	}
 	
 	@Override
-	public void render(Canvas canvas) {
-		canvas.setColor(Color.red);
+	public void render(GraphicsContext graphicsContext) {
+		graphicsContext.setFill(Color.RED);
 		Vector2 centerPoint = getCenterPoint();
-		canvas.fillRect((int)X, (int)Y, getWidth(), getHeight());
+		graphicsContext.fillRect((int)X, (int)Y, getWidth(), getHeight());
 	}
 	
 	public void hit(Projectile projectile, Entity firingEntity) {}

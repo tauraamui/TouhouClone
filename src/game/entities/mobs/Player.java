@@ -8,10 +8,10 @@ import game.entities.projectiles.Bullet;
 import game.entities.projectiles.Projectile;
 import game.stage.Stage;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.util.ArrayList;
 
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import utils.Vector2;
 
 public class Player extends Mob {
@@ -30,8 +30,8 @@ public class Player extends Mob {
 		super(x, y, stage);
 		character.loadRes();
 		animation = character.movingForwardAnimation;
-		setWidth(character.sprite.getWidth());
-		setHeight(character.sprite.getHeight());
+		//setWidth((int)character.sprite.getWidth());
+		//setHeight((int)character.sprite.getHeight());
 		hitboxDiametre = getWidth()/2;
 		mobType = MobType.PLAYER;
 	}
@@ -40,6 +40,7 @@ public class Player extends Mob {
 	public void update(float deltaTime) {
 		super.update(deltaTime);
 
+		/*
 		if (!Game.gameinput.Keyboard.AnyKey) {
 			currentDir = dir.FORWARD;
 		}
@@ -75,6 +76,7 @@ public class Player extends Mob {
 				&& !Game.gameinput.Keyboard.Left.isDown && !Game.gameinput.Keyboard.Down.isDown) {
 			currentDir = dir.FORWARD;
 		}
+		*/
 
 		move(direction, deltaTime);
 		
@@ -146,16 +148,15 @@ public class Player extends Mob {
 		}
 	}
 
-	@Override
-	public void render(Graphics canvas) {
+	public void render(GraphicsContext canvas) {
 		animation.render(canvas, (int)X, (int)Y);
 		animation.update();
-		setWidth(animation.getFrameWidth());
-		setHeight(animation.getFrameHeight());
+		setWidth((int) animation.getFrameWidth());
+		setHeight((int) animation.getFrameHeight());
 		if (Game.debugMode) {
 //			canvas.setColor(Color.RED);
 //			canvas.drawRect((int)X, (int)Y, Width, Height);
-			canvas.setColor(Color.YELLOW);
+			canvas.setFill(Color.YELLOW);
 			canvas.fillOval((int)getCenter().X-hitboxDiametre/2, (int)getCenter().Y-hitboxDiametre/2, hitboxDiametre, hitboxDiametre);
 			getBoundingBox().render(canvas);
 		}
