@@ -2,27 +2,19 @@ package graphics;
 
 import game.Game;
 import game.stage.Stage;
-import javafx.scene.canvas.Canvas
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 import javax.swing.JPanel;
 
-public class Renderer extends Canvas {
+public class Renderer {
 	
 	public long totalRenderTime;
+	private Canvas canvas = new Canvas();
 
 	public Renderer() {
 		setFocusable(true);
-	}
-
-	@Override
-	public void paintComponent(Graphics canvas) {
-		long before = System.nanoTime();
-		canvas.setColor(Color.darkGray);
-		canvas.fillRect(0, 0, Stage.Width, Stage.Height);
-		Game.render(canvas);
-		totalRenderTime = System.nanoTime()-before;
 	}
 }

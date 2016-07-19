@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import javafx.scene.canvas.Canvas;
 import utils.Vector2;
 
 public class Mob extends Entity {
@@ -47,7 +48,7 @@ public class Mob extends Entity {
 	}
 	
 	@Override
-	public void render(Graphics canvas) {
+	public void render(Canvas canvas) {
 		canvas.setColor(Color.red);
 		Vector2 centerPoint = getCenterPoint();
 		canvas.fillRect((int)X, (int)Y, getWidth(), getHeight());

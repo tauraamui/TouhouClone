@@ -1,5 +1,6 @@
 package game;
 
+import com.sun.xml.internal.bind.v2.TODO;
 import game.stage.Stage;
 import game.stage.StageManager;
 import graphics.Renderer;
@@ -8,6 +9,8 @@ import java.awt.Graphics;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import userinterface.io.GameInputHandler;
 import utils.Profiler;
 import utils.Profiler.TimingBar;
@@ -16,14 +19,15 @@ import utils.Timing;
 public class Game extends TimerTask implements Runnable {
 	
 	public static float DELTATIME = 0.16F;
-	public static Renderer Renderer = new Renderer();
 	public static StageManager stageManager = new StageManager();
-	public static GameInputHandler gameinput = new GameInputHandler(true, Renderer);
-//	private static long tStart;
+	//public static GameInputHandler gameinput = new GameInputHandler(true, Renderer);
+	public static Canvas canvas = new Canvas();
+	public static GraphicsContext renderer = canvas.getGraphicsContext2D();
+	//	private static long tStart;
 //	private long lastTime = tStart = System.nanoTime();
 	private double unprocessed = 0;
 	private float targetFPS = 60F;
-//	private double nsPerTick = 1000000000.0 / currentFPS;
+	//	private double nsPerTick = 1000000000.0 / currentFPS;
 //	private static float frames = 0;
 //	private static float ticks = 0;
 	private static long lastTimer = System.currentTimeMillis();
@@ -35,7 +39,7 @@ public class Game extends TimerTask implements Runnable {
 	private static boolean gameOver = false;
 	private static int tps = 0;
 	private static int fps = 0;
-	
+
 	public Game() {
 		startgame();
 	}
@@ -63,7 +67,8 @@ public class Game extends TimerTask implements Runnable {
 			
 			while (deltaTime >= 1) {
 				ticks++;
-				gameinput.tick();
+				//TODO: Need to replace old input method
+				//gameinput.tick();
 				stageManager.update(deltaTime);
 				deltaTime -= 1;
 				shouldRender = true;
@@ -121,7 +126,7 @@ public class Game extends TimerTask implements Runnable {
 		Game.gameOver = gameOver;
 	}
 	
-	public static void render(Graphics canvas) {
+	public static void render() {
 		stageManager.render(canvas);
 		if (Game.debugMode) {
 			Profiler.render(canvas);

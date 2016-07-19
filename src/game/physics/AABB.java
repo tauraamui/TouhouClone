@@ -1,7 +1,8 @@
 package game.physics;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import game.Game;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.paint.Color;
 
 public class AABB {
 
@@ -73,8 +74,8 @@ public class AABB {
 		return new AABB(position.Clone(), size.Clone());
 	}
 	
-	public void render(Graphics canvas) {
-		canvas.setColor(Color.RED);
-		canvas.drawRect(position.x, position.y, size.x, size.y);
+	public void render(Canvas canvas) {
+		canvas.getGraphicsContext2D().setFill(Color.RED);
+		canvas.getGraphicsContext2D().fillRect(position.x, position.y, size.x, size.y);
 	}
 }

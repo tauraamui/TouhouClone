@@ -16,8 +16,8 @@ Code is provided with no warranty. Using somebody else's code and bitching when 
 
 package utils;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.paint.Color;
 
 public class Profiler {
 	
@@ -43,7 +43,7 @@ public class Profiler {
 
     public static final long scale = 1000000;
     private static final TimingBar[] timings = new TimingBar[50];
-    private static final Color[] timingColours = {Color.yellow, Color.red, Color.green, Color.blue, Color.magenta, Color.orange};
+    private static final Color[] timingColours = {Color.YELLOW, Color.RED, Color.GREEN, Color.BLUE, Color.MAGENTA, Color.ORANGE};
     private static short currentTiming = 0;
     
     static  {
@@ -69,7 +69,7 @@ public class Profiler {
         currentTiming %= timings.length;
     }
     
-    public static void render(Graphics canvas) {
+    public static void render(Canvas canvas) {
     	x = setX;
         for (short i=0; i<timings.length; i++) {
             int 
@@ -78,8 +78,8 @@ public class Profiler {
             if (i>currentTiming) x++;
             
             for (short time : timings[i].timings) {
-                canvas.setColor(timingColours[timing++]);
-                canvas.drawLine(x, y, x, y+time);
+                canvas.getGraphicsContext2D().setFill(timingColours[timing++]);
+                canvas.getGraphicsContext2D().strokeLine(x, y, x, y+time);
                 y += time+1;
             }
             x = setX+i;

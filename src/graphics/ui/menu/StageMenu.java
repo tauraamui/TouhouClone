@@ -1,20 +1,21 @@
 package graphics.ui.menu;
 
+import com.sun.javafx.tk.FontMetrics;
 import game.Game;
 import game.stage.Stage;
 import game.stage.StageManager;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
 import java.util.ArrayList;
 
 public class StageMenu {
 	
 	private StageManager stageManager;
 	private int selectionIndex = 0;
-	private Font stageTitleFont = new Font("Calabri", Font.PLAIN, 12);
+	private Font stageTitleFont = Font.font("Calibri");
 	private FontMetrics fontMetrics;
 	private Stage[] stages = new Stage[]{};
 	private ArrayList<Stage> stageList = new ArrayList<Stage>();
@@ -71,17 +72,19 @@ public class StageMenu {
 		lastStageListIndexSwitch = System.currentTimeMillis();
 	}
 	
-	public void render(Graphics canvas) {
-		canvas.setColor(Color.DARK_GRAY);
-		canvas.fillRect(0, 0, Window.Width, Window.Height);
-		
+	public void render(Canvas canvas) {
+		canvas.getGraphicsContext2D().setFill(Color.DARKGREY);
+		canvas.getGraphicsContext2D().fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+		canvas.getGraphicsContext2D().setFont();
+
 		canvas.setFont(stageTitleFont);
 		fontMetrics = canvas.getFontMetrics();
-		
+
 		int selectionBoxX = 0;
 		int selectionBoxY = 0;
 		int titleWidth = fontMetrics.stringWidth(stages[selectionIndex].getTitle());
-		
+
 		canvas.setColor(Color.BLUE);
 		if (stages[selectionIndex].isLocked()) canvas.setColor(Color.RED);
 		

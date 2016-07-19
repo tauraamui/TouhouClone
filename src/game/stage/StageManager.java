@@ -3,17 +3,11 @@ package game.stage;
 import game.Game;
 import game.entities.Entity;
 import game.entities.mobs.Player;
-import game.stage.stages.StageFive;
-import game.stage.stages.StageFour;
-import game.stage.stages.StageOne;
-import game.stage.stages.StageThree;
-import game.stage.stages.StageTwo;
+import game.stage.stages.*;
 import graphics.ui.menu.StageMenu;
+import javafx.scene.canvas.Canvas;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class StageManager {
@@ -123,7 +117,7 @@ public class StageManager {
 		}
 	}
 	
-	public void render(Graphics canvas) {
+	public void render(Canvas canvas) {
 		if (stageMenuOpen) {
 			stageMenu.render(canvas);
 			return;

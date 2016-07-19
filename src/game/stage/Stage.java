@@ -15,6 +15,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import javafx.scene.canvas.Canvas;
 import utils.Random2;
 
 public class Stage {
@@ -93,7 +94,7 @@ public class Stage {
 		}
 	}
 	
-	public void render(Graphics canvas) {
+	public void render(Canvas canvas) {
 		player.render(canvas);
 //		for (int i = 0; i < entities.size(); i++) {
 //			entities.get(i).render(canvas);

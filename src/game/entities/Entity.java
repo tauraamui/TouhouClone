@@ -7,6 +7,7 @@ import graphics.animation.Animation;
 
 import java.awt.Graphics;
 
+import javafx.scene.canvas.Canvas;
 import utils.Vector2;
 
 public class Entity extends Vector2 {
@@ -37,7 +38,7 @@ public class Entity extends Vector2 {
 		Y += (dir.Y * deltaTime);
 	}
 	
-	public void render(Graphics canvas){
+	public void render(Canvas canvas){
 		if (Game.debugMode) {
 			AABB boundingBox = getBoundingBox();
 			boundingBox.render(canvas);
