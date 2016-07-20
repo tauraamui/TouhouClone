@@ -12,6 +12,7 @@ public class Window extends Application {
 
     public static int Width = 800;
     public static int Height = 600;
+    public static Thread gameThread;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -23,7 +24,14 @@ public class Window extends Application {
         AnchorPane.setLeftAnchor(anchorPane, 0.0);
         AnchorPane.setBottomAnchor(anchorPane, 0.0);
         primaryStage.setFullScreen(true);
+        gameThread = new Thread(new Game(), "Game Worker Thread");
+        gameThread.start();
         primaryStage.show();
+    }
+
+    @Override
+    public void stop() {
+        Game.quit();
     }
 
     public static void main(String[] args) { launch(args); }

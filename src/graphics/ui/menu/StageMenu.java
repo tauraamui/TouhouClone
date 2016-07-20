@@ -101,11 +101,13 @@ public class StageMenu {
 //			gc.drawString(stages[i].getTitle(), Window.Width/2-(fontMetrics.stringWidth(stages[i].getTitle())/2), listTitleHeightSpacing+(fontMetrics.getHeight()*i));
 //		}
 
+		/*
 		for (int i = 0; i < stageList.size(); i++) {
 			Stage stage = stageList.get(i);
 			//graphicsContext.drawString(stage.getTitle(), Window.Width/2-(fontMetrics.stringWidth(stage.getTitle())/2), listTitleHeightSpacing+(fontMetrics.getHeight()*i));
 //			System.out.println(30+(fontMetrics.getHeight()*i));
 		}
+		*/
 
 //		for (int i = 0; i < stages.length; i++) {
 //			gc.drawString(stages[i].getTitle(), Window.Width/2-(fontMetrics.stringWidth(stages[i].getTitle())/2), listTitleHeightSpacing+(fontMetrics.getHeight()*i));
