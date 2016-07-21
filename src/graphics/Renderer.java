@@ -1,27 +1,28 @@
 package graphics;
 
 import game.Game;
-import game.stage.Stage;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import userinterface.Window;
 
-import java.awt.*;
-
-import javax.swing.JPanel;
 
 public class Renderer {
 	
 	public long totalRenderTime;
-	private Canvas canvas = new Canvas();
+	private Canvas canvas = new Canvas(Window.Width, Window.Height);
 	private GraphicsContext graphicsContext;
 
 	public Renderer() {
-		graphicsContext = canvas.getGraphicsContext2D();
+		canvas.setWidth(Window.Width);
+		canvas.setHeight(Window.Height);
 	}
 
 	public void render() {
+		graphicsContext = canvas.getGraphicsContext2D();
 		Game.render(graphicsContext);
 	}
 
-	public Canvas getCanvas() {return canvas;}
+	public Canvas getCanvas() {
+		return canvas;
+	}
 }

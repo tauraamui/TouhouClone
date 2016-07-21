@@ -1,6 +1,7 @@
 package graphics.ui.menu;
 
 import com.sun.javafx.tk.FontMetrics;
+import com.sun.javafx.tk.Toolkit;
 import game.Game;
 import game.stage.Stage;
 import game.stage.StageManager;
@@ -16,7 +17,7 @@ public class StageMenu {
 	private StageManager stageManager;
 	private int selectionIndex = 0;
 	private Font stageTitleFont = Font.font("Calibri");
-	private FontMetrics fontMetrics;
+	private FontMetrics fontMetrics = Toolkit.getToolkit().getFontLoader().getFontMetrics(stageTitleFont);
 	private Stage[] stages = new Stage[]{};
 	private ArrayList<Stage> stageList = new ArrayList<Stage>();
 	private long lastStageListIndexSwitch = 0;
@@ -81,21 +82,19 @@ public class StageMenu {
 		graphicsContext.fillRect(0, 0, graphicsContext.getCanvas().getWidth(), graphicsContext.getCanvas().getHeight());
 
 		graphicsContext.setFont(stageTitleFont);
-		/*
-		fontMetrics = graphicsContext.getFontMetrics();
+
 		int selectionBoxX = 0;
 		int selectionBoxY = 0;
-		int titleWidth = fontMetrics.stringWidth(stages[selectionIndex].getTitle());
+		int titleWidth = (int)fontMetrics.computeStringWidth(stages[selectionIndex].getTitle());
 
 		graphicsContext.setFill(Color.BLUE);
-		if (stages[selectionIndex].isLocked()) graphicsContext.setColor(Color.RED);
+		if (stages[selectionIndex].isLocked()) graphicsContext.setFill(Color.RED);
 
-		selectionBoxX = Window.Width/2-(fontMetrics.stringWidth(stages[selectionIndex].getTitle())/2);
-		selectionBoxY = 30+(fontMetrics.getHeight()*(selectionIndex-1)+1);
+		selectionBoxX = Window.Width/2-((int)fontMetrics.computeStringWidth(stages[selectionIndex].getTitle())/2);
+		selectionBoxY = 30+((int)fontMetrics.getLineHeight()*(selectionIndex-1)+1);
 
-		graphicsContext.fillRect(selectionBoxX-5, selectionBoxY+2, titleWidth+10, fontMetrics.getHeight()+2);
-		graphicsContext.setColor(Color.WHITE);
-		*/
+		graphicsContext.fillRect(selectionBoxX-5, selectionBoxY+2, titleWidth+10, fontMetrics.getLineHeight()+2);
+		graphicsContext.setFill(Color.WHITE);
 
 //		for (int i = startListRender; i < endListRender; i++) {
 //			gc.drawString(stages[i].getTitle(), Window.Width/2-(fontMetrics.stringWidth(stages[i].getTitle())/2), listTitleHeightSpacing+(fontMetrics.getHeight()*i));

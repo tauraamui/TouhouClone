@@ -7,12 +7,16 @@ import graphics.Renderer;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.FillRule;
+import userinterface.Window;
 import utils.Profiler;
 import utils.Profiler.TimingBar;
 import utils.Timing;
 
-public class Game extends TimerTask implements Runnable {
+public class Game extends AnimationTimer {
 	
 	public static float DELTATIME = 0.16F;
 	public static StageManager stageManager = new StageManager();
@@ -35,31 +39,31 @@ public class Game extends TimerTask implements Runnable {
 	private static int tps = 0;
 	private static int fps = 0;
 
-	public Game() {
-		startgame();
-	}
-	
-	public void startgame() {
-		new Timer().scheduleAtFixedRate(this, 0, 16);
-	}
-	
 	@Override
-	public void run() {
-		Timing.update();
+	public void handle(long now) {
+
+		float deltaTime = 0;
 		long lastTime = System.nanoTime();
 		double nsPerTick = 1000000000D / targetFPS;
+
+		deltaTime += (now - lastTime) / nsPerTick;
+
+		stageManager.update(deltaTime);
+		Renderer.render();
+
+		/*
+		Timing.update();
+		long lastTime = System.nanoTime();
 		int frames = 0;
 		int ticks = 0;
-		long lastTimer = System.currentTimeMillis();
+		long lastTimer = now;
 		float deltaTime = 0;
-		
-		while (running) {
-			long now = System.nanoTime();
-			deltaTime += (now - lastTime) / nsPerTick;
+
+		if (running) {
 			Game.DELTATIME = deltaTime;
 			lastTime = now;
 			boolean shouldRender = false;
-			
+
 			while (deltaTime >= 1) {
 				ticks++;
 				//TODO: Need to replace old input method
@@ -68,7 +72,7 @@ public class Game extends TimerTask implements Runnable {
 				deltaTime -= 1;
 				shouldRender = true;
 			}
-			
+
 			if (shouldRender) {
 				frames++;
 				if (debugMode) {
@@ -80,9 +84,9 @@ public class Game extends TimerTask implements Runnable {
 				}
 				Renderer.render();
 			}
-			
+
 			try { Thread.sleep(2); } catch (InterruptedException e) { e.printStackTrace(); }
-			
+
 			if (System.currentTimeMillis() - lastTimer >= 1000) {
 				lastTimer += 1000;
 				tps = frames;
@@ -91,8 +95,10 @@ public class Game extends TimerTask implements Runnable {
 				ticks = 0;
 			}
 		}
+		*/
 	}
-	
+
+
 	public static boolean isPaused() {
 		return paused;
 	}
@@ -121,12 +127,14 @@ public class Game extends TimerTask implements Runnable {
 		Game.gameOver = gameOver;
 	}
 	
-	public static void render(GraphicsContext canvas) {
-		stageManager.render(canvas);
+	public static void render(GraphicsContext graphicsContext) {
+		graphicsContext.setFill(Color.BLACK);
+		graphicsContext.fillRect(0, 0, graphicsContext.getCanvas().getWidth(), graphicsContext.getCanvas().getHeight());
+		stageManager.render(graphicsContext);
 		if (Game.debugMode) {
-			Profiler.render(canvas);
+			Profiler.render(graphicsContext);
 		}
-//		stageMenu.render(canvas);
+//		stageMenu.render(graphicsContext);
 	}
 	
 	public static void quit() {
