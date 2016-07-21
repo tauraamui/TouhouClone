@@ -16,17 +16,20 @@ public class StageMenu {
 
 	private StageManager stageManager;
 	private int selectionIndex = 0;
-	private Font stageTitleFont = Font.font("Calibri");
-	private FontMetrics fontMetrics = Toolkit.getToolkit().getFontLoader().getFontMetrics(stageTitleFont);
+	private Font stageTitleFont = Font.font("Calibri", 20);
+	private FontMetrics fontMetrics;
 	private Stage[] stages = new Stage[]{};
 	private ArrayList<Stage> stageList = new ArrayList<Stage>();
 	private long lastStageListIndexSwitch = 0;
 	private int startIndex = 0;
-	private int listTitleHeightSpacing = 30;
+	private int listTitleHeightSpacing = 35;
 	private int listHeight = 0;
 
 
 	public StageMenu(StageManager stageManager) {
+
+		fontMetrics = Toolkit.getToolkit().getFontLoader().getFontMetrics(stageTitleFont);
+
 		this.stageManager = stageManager;
 		stages = new Stage[stageManager.getStages().size()];
 		for (int i = 0; i < stages.length; i++) {
@@ -91,27 +94,16 @@ public class StageMenu {
 		if (stages[selectionIndex].isLocked()) graphicsContext.setFill(Color.RED);
 
 		selectionBoxX = Window.Width/2-((int)fontMetrics.computeStringWidth(stages[selectionIndex].getTitle())/2);
-		selectionBoxY = 30+((int)fontMetrics.getLineHeight()*(selectionIndex-1)+1);
+		selectionBoxY = 36+((int)fontMetrics.getLineHeight()*(selectionIndex-1)+1);
 
 		graphicsContext.fillRect(selectionBoxX-5, selectionBoxY+2, titleWidth+10, fontMetrics.getLineHeight()+2);
 		graphicsContext.setFill(Color.WHITE);
 
-//		for (int i = startListRender; i < endListRender; i++) {
-//			gc.drawString(stages[i].getTitle(), Window.Width/2-(fontMetrics.stringWidth(stages[i].getTitle())/2), listTitleHeightSpacing+(fontMetrics.getHeight()*i));
-//		}
 
-		/*
 		for (int i = 0; i < stageList.size(); i++) {
 			Stage stage = stageList.get(i);
-			//graphicsContext.drawString(stage.getTitle(), Window.Width/2-(fontMetrics.stringWidth(stage.getTitle())/2), listTitleHeightSpacing+(fontMetrics.getHeight()*i));
-//			System.out.println(30+(fontMetrics.getHeight()*i));
+			graphicsContext.fillText(stage.getTitle(), Window.Width/2-(fontMetrics.computeStringWidth(stage.getTitle())/2), listTitleHeightSpacing+(fontMetrics.getLineHeight()*i));
 		}
-		*/
-
-//		for (int i = 0; i < stages.length; i++) {
-//			gc.drawString(stages[i].getTitle(), Window.Width/2-(fontMetrics.stringWidth(stages[i].getTitle())/2), listTitleHeightSpacing+(fontMetrics.getHeight()*i));
-//			System.out.println(30+(fontMetrics.getHeight()*i));
-//		}
 	}
 	
 	public void populateListToRender() {
