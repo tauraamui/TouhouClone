@@ -12,6 +12,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.FillRule;
 import userinterface.Window;
+import userinterface.io.Input;
 import utils.Profiler;
 import utils.Profiler.TimingBar;
 import utils.Timing;
@@ -36,8 +37,14 @@ public class Game extends AnimationTimer {
 	private static boolean paused = false;
 	private static boolean running = true;
 	private static boolean gameOver = false;
+	public static Input input;
 	private static int tps = 0;
 	private static int fps = 0;
+
+	@Override
+	public void start() {
+		super.start();
+	}
 
 	@Override
 	public void handle(long now) {
@@ -128,13 +135,10 @@ public class Game extends AnimationTimer {
 	}
 	
 	public static void render(GraphicsContext graphicsContext) {
-		graphicsContext.setFill(Color.BLACK);
-		graphicsContext.fillRect(0, 0, graphicsContext.getCanvas().getWidth(), graphicsContext.getCanvas().getHeight());
 		stageManager.render(graphicsContext);
 		if (Game.debugMode) {
 			Profiler.render(graphicsContext);
 		}
-//		stageMenu.render(graphicsContext);
 	}
 	
 	public static void quit() {

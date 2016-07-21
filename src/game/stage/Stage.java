@@ -96,16 +96,18 @@ public class Stage {
 	}
 	
 	public void render(GraphicsContext graphicsContext) {
+		graphicsContext.setFill(Color.KHAKI);
+		graphicsContext.fillRect(0, 0, Window.Width, Window.Height);
 		player.render(graphicsContext);
 //		for (int i = 0; i < entities.size(); i++) {
 //			entities.get(i).render(canvas);
 //		}
-		for (int i = 0; i < mobs.size(); i++) 
+		for (int i = 0; i < mobs.size(); i++)
 			mobs.get(i).render(graphicsContext);
-		
+
 		for (int i = 0; i < bullets.size(); i++)
 			bullets.get(i).render(graphicsContext);
-		
+
 		for (int i = 0; i < projectileEmitters.size(); i++)
 			projectileEmitters.get(i).render(graphicsContext);
 

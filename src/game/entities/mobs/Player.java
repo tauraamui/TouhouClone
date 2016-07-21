@@ -78,7 +78,7 @@ public class Player extends Mob {
 		}
 		*/
 
-		move(direction, deltaTime);
+		//move(direction, deltaTime);
 		
 		checkWindowBoundries();
 
@@ -148,17 +148,19 @@ public class Player extends Mob {
 		}
 	}
 
-	public void render(GraphicsContext canvas) {
-		animation.render(canvas, (int)X, (int)Y);
+	public void render(GraphicsContext graphicsContext) {
+		animation.render(graphicsContext, (int)X, (int)Y);
 		animation.update();
-		setWidth((int) animation.getFrameWidth());
-		setHeight((int) animation.getFrameHeight());
+		//graphicsContext.setFill(Color.CYAN);
+		//graphicsContext.fillRect(X, Y, getWidth(), getHeight());
+//		setWidth((int) animation.getFrameWidth());
+//		setHeight((int) animation.getFrameHeight());
 		if (Game.debugMode) {
 //			canvas.setColor(Color.RED);
 //			canvas.drawRect((int)X, (int)Y, Width, Height);
-			canvas.setFill(Color.YELLOW);
-			canvas.fillOval((int)getCenter().X-hitboxDiametre/2, (int)getCenter().Y-hitboxDiametre/2, hitboxDiametre, hitboxDiametre);
-			getBoundingBox().render(canvas);
+			graphicsContext.setFill(Color.YELLOW);
+			graphicsContext.fillOval((int)getCenter().X-hitboxDiametre/2, (int)getCenter().Y-hitboxDiametre/2, hitboxDiametre, hitboxDiametre);
+			getBoundingBox().render(graphicsContext);
 		}
 	}
 }

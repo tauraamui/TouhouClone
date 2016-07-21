@@ -36,8 +36,8 @@ public class Animation {
 		return frames[frameIndex].getHeight();
 	}
 	
-	public void render(GraphicsContext canvas, int x, int y) {
-		canvas.drawImage(frames[frameIndex], x, y);
+	public void render(GraphicsContext graphicsContext, int x, int y) {
+		graphicsContext.drawImage(frames[frameIndex], x, y);
 	}
 	
 	public void reset() {

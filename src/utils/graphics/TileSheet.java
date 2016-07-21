@@ -32,6 +32,18 @@ public class TileSheet {
 	public int Rows, Columns;
    
 	public TileSheet(int width, int height, int margin, InputStream iostream) {
+		try {
+			if (iostream != null) {
+				SpriteSheet = new Image(iostream);
+				spritewidth = width;
+				spriteheight = height;
+				MarginX = MarginY = margin;
+				Rows = (int)Math.floor(height/(spriteheight+margin));
+				Columns = (int)Math.floor(width/(spritewidth+margin));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		/*
 		try {
 			if (iostream != null) {
@@ -63,9 +75,9 @@ public class TileSheet {
 		}
 		*/
 	}
-	
+
+	/*
 	public TileSheet(int width, int height, int margin, String url) throws IOException {
-		/*
 		SpriteSheet = new Image(url);
 		Image SpriteSheetTemp = new Image(SpriteSheet.getWidth(), SpriteSheet.getHeight());
 		for (int x = 0; x < SpriteSheet.getWidth(); x++) {
@@ -85,10 +97,9 @@ public class TileSheet {
 		height = SpriteSheet.getHeight();
 		Rows = (int)Math.floor(height/(spriteheight+margin));
 		Columns = (int)Math.floor(width/(spritewidth+margin));
-		*/
 	}
-	public TileSheet(int width, int height, int marginx, int marginy, String url) throws IOException {
 		/*
+	public TileSheet(int width, int height, int marginx, int marginy, String url) throws IOException {
 		SpriteSheet = ImageIO.read(new File(url));
 		BufferedImage SpriteSheetTemp = new BufferedImage(SpriteSheet.getWidth(), SpriteSheet.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		for (int x = 0; x < SpriteSheet.getWidth(); x++) {
@@ -109,8 +120,9 @@ public class TileSheet {
 		height = SpriteSheet.getHeight();
 		Rows = (int)Math.floor(height/(spriteheight+marginx));
 		Columns = (int)Math.floor(width/(spritewidth+marginy));
-		*/
 	}
+		*/
+
 	
 	public Image getSprite(int x, int y) {
 		//if (x >= 0 && x < Columns && y >= 0 && y < Rows) return SpriteSheet.getSubimage((x * spritewidth) + MarginX*x, (y * spriteheight) + MarginY*y, spritewidth, spriteheight);

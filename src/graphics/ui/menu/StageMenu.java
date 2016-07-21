@@ -40,10 +40,20 @@ public class StageMenu {
 	}
 
 	public void update() {
-		/*
-		if (Game.gameinput.Keyboard.Down.Clicked) incListIndex();
-		if (Game.gameinput.Keyboard.Up.Clicked) decListIndex();
-		*/
+
+		if (Game.input.Down()) incListIndex();
+		if (Game.input.Up()) decListIndex();
+
+		if (Game.input.Enter()) {
+			if (stages[selectionIndex].isUnlocked()) {
+				System.out.println("loading "+stages[selectionIndex].getTitle());
+				stageManager.setStage(selectionIndex);
+				stageManager.stageMenuOpen = false;
+			} else {
+				System.out.println(stages[selectionIndex].getTitle()+" (is locked)");
+			}
+		}
+
 		checkSelectionIndexBounds();
 		populateListToRender();
 
@@ -81,7 +91,7 @@ public class StageMenu {
 
 	public void render(GraphicsContext graphicsContext) {
 
-		graphicsContext.setFill(Color.DARKGREY);
+		graphicsContext.setFill(Color.BLACK);
 		graphicsContext.fillRect(0, 0, graphicsContext.getCanvas().getWidth(), graphicsContext.getCanvas().getHeight());
 
 		graphicsContext.setFont(stageTitleFont);
@@ -127,7 +137,6 @@ public class StageMenu {
 	}
 	
 	private int getMaxListElements() {
-		
 		if (fontMetrics == null) return 0;
 		
 		int total = 0;

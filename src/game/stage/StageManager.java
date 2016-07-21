@@ -29,9 +29,6 @@ public class StageManager {
 		stages.add(new StageFour());
 		stages.add(new StageFive());
 		//for testing duhhhh
-//		for (int i = 0; i < 23; i++) {
-//			stages.add(new Stage("Stage "+(4+i)+": Meow"));
-//		}
 		//THIS MUST BE LAST MEEP MEEP
 		stageMenu = new StageMenu(this);
 	}
@@ -53,6 +50,7 @@ public class StageManager {
 		currentStageIndex--;
 		currentStage = stages.get(currentStageIndex);
 		currentStage.setLocked(false);
+		currentStage.loadRes();
 		stageTransitioning = true;
 		startStageTransitionTime = System.currentTimeMillis();
 	}

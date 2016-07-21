@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import userinterface.io.Input;
 
 /**
  * Created by tauraaamui on 19/07/2016.
@@ -27,7 +28,10 @@ public class Window extends Application {
         AnchorPane.setLeftAnchor(anchorPane, 0.0);
         AnchorPane.setBottomAnchor(anchorPane, 0.0);
         game = new Game();
-        primaryStage.setScene(new Scene(anchorPane));
+        Scene rootScene = new Scene(anchorPane);
+        Game.input = new Input(rootScene);
+        Game.input.addListeners();
+        primaryStage.setScene(rootScene);
         primaryStage.show();
         game.start();
     }
