@@ -37,20 +37,22 @@ public class StageManager {
 		if (currentStageIndex + 1 >= stages.size()) return;
 		resetCurrentStage();
 		currentStageIndex++;
-		currentStage = stages.get(currentStageIndex);
-		currentStage.setLocked(false);
-		currentStage.loadRes();
-		stageTransitioning = true;
-		startStageTransitionTime = System.currentTimeMillis();
+		startCurrentStage();
 	}
 	
 	public void previousStage() {
 		if (currentStageIndex - 1 < 0) return;
 		resetCurrentStage();
 		currentStageIndex--;
+		startCurrentStage();
+	}
+
+	public void startCurrentStage() {
+		resetCurrentStage();
 		currentStage = stages.get(currentStageIndex);
 		currentStage.setLocked(false);
 		currentStage.loadRes();
+		stageMenuOpen = false;
 		stageTransitioning = true;
 		startStageTransitionTime = System.currentTimeMillis();
 	}

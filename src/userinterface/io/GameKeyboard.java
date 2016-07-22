@@ -25,8 +25,7 @@ public class GameKeyboard {
 	
 	public boolean Swallow, AnyKey;
 	public int KeysDown;
-	
-	public Button 
+	public Button
 	Left = new Button(),
 	Right = new Button(),
 	Up = new Button(),

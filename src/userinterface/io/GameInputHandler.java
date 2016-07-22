@@ -16,70 +16,53 @@ Code is provided with no warranty. Using somebody else's code and bitching when 
 
 package userinterface.io;
 
-import game.Game;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
-import javax.swing.JComponent;
-
-public class GameInputHandler implements KeyListener {
+public class GameInputHandler {
 
 	private boolean handlekeyboard;
 
 	public GameKeyboard Keyboard;
-	private JComponent componentToHandle;
+	private Scene scene;
 
 	public void tick() {
 		if (handlekeyboard) Keyboard.Tick();
 	}
 
-	public GameInputHandler(boolean keys, JComponent game) {
-		componentToHandle = game;
+	public GameInputHandler(boolean keys, Scene scene) {
+		this.scene = scene;
 		handlekeyboard = keys;
 		if (keys) {
-			game.addKeyListener(this);
+			scene.addEventHandler(KeyEvent.KEY_PRESSED, onPressed);
+			scene.addEventHandler(KeyEvent.KEY_RELEASED, onReleased);
 			Keyboard = new GameKeyboard();
 		}
 	}
-	
+
 	public void setHandlerKeys(boolean keys) {
 		handlekeyboard = keys;
 		if (keys) {
-			componentToHandle.addKeyListener(this);
+			scene.addEventHandler(KeyEvent.KEY_PRESSED, onPressed);
+			scene.addEventHandler(KeyEvent.KEY_RELEASED, onReleased);
 			Keyboard = new GameKeyboard();
 		}
 	}
-	
-	@Override
-	public void keyPressed(KeyEvent ke) {
-		toggle(ke.getKeyCode(), true);
-	}
 
-	@Override
-	public void keyReleased(KeyEvent ke) {
-		toggle(ke.getKeyCode(), false);
-	}
-
-	@Override
-	public void keyTyped(KeyEvent ke) {}
-
-	private void toggle(int ke, boolean pressed) {
+	private void toggle(KeyCode kc, boolean pressed) {
 		if (handlekeyboard) {
-			switch (ke) {
-				case KeyEvent.VK_W:			Keyboard.Up.toggle(pressed);	break;
-				case KeyEvent.VK_A: 		Keyboard.Left.toggle(pressed); 	break;
-				case KeyEvent.VK_S:			Keyboard.Down.toggle(pressed);	break;
-				case KeyEvent.VK_D: 		Keyboard.Right.toggle(pressed); break;
-				case KeyEvent.VK_LEFT: 		Keyboard.Left.toggle(pressed); 	break;
-				case KeyEvent.VK_UP:		Keyboard.Up.toggle(pressed);	break;
-				case KeyEvent.VK_DOWN:		Keyboard.Down.toggle(pressed);	break;
-				case KeyEvent.VK_RIGHT: 	Keyboard.Right.toggle(pressed); break;
-				case KeyEvent.VK_ESCAPE:	Keyboard.Escape.toggle(pressed);break;
-				case KeyEvent.VK_ENTER:		Keyboard.Enter.toggle(pressed); break;
-				case KeyEvent.VK_SPACE:		Keyboard.Space.toggle(pressed);	break;
-				case KeyEvent.VK_P:			Keyboard.P.toggle(pressed);		break;
-				case KeyEvent.VK_X:			Keyboard.X.toggle(pressed);		break;
+			switch (kc) {
+				case W:				Keyboard.Up.toggle(pressed); break;
+				case A:				Keyboard.Left.toggle(pressed);	break;
+				case S:				Keyboard.Down.toggle(pressed);	break;
+				case D:				Keyboard.Right.toggle(pressed); break;
+				case ESCAPE:		Keyboard.Escape.toggle(pressed);break;
+				case ENTER:			Keyboard.Enter.toggle(pressed); break;
+				case SPACE:			Keyboard.Space.toggle(pressed); break;
+				case P:				Keyboard.P.toggle(pressed);		break;
+				case X:				Keyboard.X.toggle(pressed);		break;
 			}
 		}
 	}
@@ -89,4 +72,18 @@ public class GameInputHandler implements KeyListener {
 			button.toggle(false);
 		}
 	}
+
+	public EventHandler<KeyEvent> onPressed = new EventHandler<KeyEvent>() {
+		@Override
+		public void handle(KeyEvent event) {
+			toggle(event.getCode(), true);
+		}
+	};
+
+	public EventHandler<KeyEvent> onReleased = new EventHandler<KeyEvent>() {
+		@Override
+		public void handle(KeyEvent event) {
+			toggle(event.getCode(), false);
+		}
+	};
 }

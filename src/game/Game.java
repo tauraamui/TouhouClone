@@ -1,21 +1,12 @@
 package game;
 
-import game.stage.Stage;
 import game.stage.StageManager;
 import graphics.Renderer;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.FillRule;
-import userinterface.Window;
-import userinterface.io.Input;
+import userinterface.io.GameInputHandler;
 import utils.Profiler;
-import utils.Profiler.TimingBar;
-import utils.Timing;
 
 public class Game extends AnimationTimer {
 	
@@ -37,7 +28,7 @@ public class Game extends AnimationTimer {
 	private static boolean paused = false;
 	private static boolean running = true;
 	private static boolean gameOver = false;
-	public static Input input;
+	public static GameInputHandler input;
 	private static int tps = 0;
 	private static int fps = 0;
 
@@ -55,6 +46,7 @@ public class Game extends AnimationTimer {
 
 		deltaTime += (now - lastTime) / nsPerTick;
 
+		input.tick();
 		stageManager.update(deltaTime);
 		Renderer.render();
 

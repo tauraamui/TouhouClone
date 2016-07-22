@@ -41,14 +41,14 @@ public class StageMenu {
 
 	public void update() {
 
-		if (Game.input.Down()) incListIndex();
-		if (Game.input.Up()) decListIndex();
+		if (Game.input.Keyboard.Down.isDown) incListIndex();
+		if (Game.input.Keyboard.Up.isDown) decListIndex();
 
-		if (Game.input.Enter()) {
+		if (Game.input.Keyboard.Enter.Clicked) {
 			if (stages[selectionIndex].isUnlocked()) {
 				System.out.println("loading "+stages[selectionIndex].getTitle());
 				stageManager.setStage(selectionIndex);
-				stageManager.stageMenuOpen = false;
+				stageManager.startCurrentStage();
 			} else {
 				System.out.println(stages[selectionIndex].getTitle()+" (is locked)");
 			}
