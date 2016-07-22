@@ -5,13 +5,14 @@ import graphics.Renderer;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
+import userinterface.Window;
 import userinterface.io.GameInputHandler;
 import utils.Profiler;
 
 public class Game extends AnimationTimer {
 	
 	public static float DELTATIME = 0.16F;
-	public static StageManager stageManager = new StageManager();
+	public static StageManager stageManager;
 	//public static GameInputHandler gameinput = new GameInputHandler(true, Renderer);
 	public static Renderer Renderer = new Renderer();
 	//	private static long tStart;
@@ -31,6 +32,12 @@ public class Game extends AnimationTimer {
 	public static GameInputHandler input;
 	private static int tps = 0;
 	private static int fps = 0;
+	private long lastTickedInput = 0;
+
+	public Game() {
+		input = new GameInputHandler(Window.getScene());
+		stageManager = new StageManager();
+	}
 
 	@Override
 	public void start() {
@@ -46,7 +53,6 @@ public class Game extends AnimationTimer {
 
 		deltaTime += (now - lastTime) / nsPerTick;
 
-		input.tick();
 		stageManager.update(deltaTime);
 		Renderer.render();
 

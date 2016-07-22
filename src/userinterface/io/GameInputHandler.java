@@ -16,63 +16,26 @@ Code is provided with no warranty. Using somebody else's code and bitching when 
 
 package userinterface.io;
 
+import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 public class GameInputHandler {
 
-	private boolean handlekeyboard;
-
-	public GameKeyboard Keyboard;
 	private Scene scene;
 
-	public void tick() {
-		if (handlekeyboard) Keyboard.Tick();
-	}
-
-	public GameInputHandler(boolean keys, Scene scene) {
+	public GameInputHandler(Scene scene) {
 		this.scene = scene;
-		handlekeyboard = keys;
-		if (keys) {
-			scene.addEventHandler(KeyEvent.KEY_PRESSED, onPressed);
-			scene.addEventHandler(KeyEvent.KEY_RELEASED, onReleased);
-			Keyboard = new GameKeyboard();
-		}
 	}
 
-	public void setHandlerKeys(boolean keys) {
-		handlekeyboard = keys;
-		if (keys) {
-			scene.addEventHandler(KeyEvent.KEY_PRESSED, onPressed);
-			scene.addEventHandler(KeyEvent.KEY_RELEASED, onReleased);
-			Keyboard = new GameKeyboard();
-		}
+	public void addEventHandler(EventType<KeyEvent> keyEvent, EventHandler<KeyEvent> eventHandler) {
+		scene.addEventHandler(keyEvent, eventHandler);
 	}
 
-	private void toggle(KeyCode kc, boolean pressed) {
-		if (handlekeyboard) {
-			switch (kc) {
-				case W:				Keyboard.Up.toggle(pressed); break;
-				case A:				Keyboard.Left.toggle(pressed);	break;
-				case S:				Keyboard.Down.toggle(pressed);	break;
-				case D:				Keyboard.Right.toggle(pressed); break;
-				case ESCAPE:		Keyboard.Escape.toggle(pressed);break;
-				case ENTER:			Keyboard.Enter.toggle(pressed); break;
-				case SPACE:			Keyboard.Space.toggle(pressed); break;
-				case P:				Keyboard.P.toggle(pressed);		break;
-				case X:				Keyboard.X.toggle(pressed);		break;
-			}
-		}
-	}
-	
-	public void reset() {
-		for (Button button : Keyboard.getKeyset()) {
-			button.toggle(false);
-		}
-	}
-
+	/*
 	public EventHandler<KeyEvent> onPressed = new EventHandler<KeyEvent>() {
 		@Override
 		public void handle(KeyEvent event) {
@@ -86,4 +49,5 @@ public class GameInputHandler {
 			toggle(event.getCode(), false);
 		}
 	};
+	*/
 }

@@ -5,7 +5,10 @@ import com.sun.javafx.tk.Toolkit;
 import game.Game;
 import game.stage.Stage;
 import game.stage.StageManager;
+import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import userinterface.Window;
@@ -36,11 +39,16 @@ public class StageMenu {
 			stages[i] = stageManager.getStages().get(i);
 		}
 		lastStageListIndexSwitch = System.currentTimeMillis();
+		Game.input.addEventHandler(KeyEvent.KEY_PRESSED, keyEventEventHandler);
 		populateListToRender();
 	}
 
 	public void update() {
 
+		checkSelectionIndexBounds();
+		populateListToRender();
+
+		/*
 		if (Game.input.Keyboard.Down.isDown) incListIndex();
 		if (Game.input.Keyboard.Up.isDown) decListIndex();
 
@@ -53,21 +61,19 @@ public class StageMenu {
 				System.out.println(stages[selectionIndex].getTitle()+" (is locked)");
 			}
 		}
-
-		checkSelectionIndexBounds();
-		populateListToRender();
-
-		/*
-		if (Game.gameinput.Keyboard.Enter.Clicked) {
-			if (stages[selectionIndex].isUnlocked()) {
-				stageManager.setStage(selectionIndex);
-				stageManager.stageMenuOpen = false;
-			} else {
-				System.out.println(stages[selectionIndex].getTitle()+" (is locked)");
-			}
-		}
 		*/
 	}
+
+	public EventHandler<KeyEvent> keyEventEventHandler = new EventHandler<KeyEvent>() {
+		@Override
+		public void handle(KeyEvent event) {
+			if (event.getCode() == KeyCode.S) {
+				incListIndex();
+			} else if (event.getCode() == KeyCode.W) {
+				decListIndex();
+			}
+		}
+	};
 
 	private void checkSelectionIndexBounds() {
 		if (selectionIndex < startIndex) { if (startIndex == 0) selectionIndex = startIndex; }
