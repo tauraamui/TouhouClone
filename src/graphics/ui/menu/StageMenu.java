@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class StageMenu {
 
 	private StageManager stageManager;
+	private boolean open = true;
 	private int selectionIndex = 0;
 	private Font stageTitleFont = Font.font("Calibri", 20);
 	private FontMetrics fontMetrics;
@@ -32,14 +33,13 @@ public class StageMenu {
 	public StageMenu(StageManager stageManager) {
 
 		fontMetrics = Toolkit.getToolkit().getFontLoader().getFontMetrics(stageTitleFont);
-
+		addKeyEventHandlers();
 		this.stageManager = stageManager;
 		stages = new Stage[stageManager.getStages().size()];
 		for (int i = 0; i < stages.length; i++) {
 			stages[i] = stageManager.getStages().get(i);
 		}
 		lastStageListIndexSwitch = System.currentTimeMillis();
-		Game.input.addEventHandler(KeyEvent.KEY_PRESSED, keyEventEventHandler);
 		populateListToRender();
 	}
 
@@ -47,30 +47,31 @@ public class StageMenu {
 
 		checkSelectionIndexBounds();
 		populateListToRender();
-
-		/*
-		if (Game.input.Keyboard.Down.isDown) incListIndex();
-		if (Game.input.Keyboard.Up.isDown) decListIndex();
-
-		if (Game.input.Keyboard.Enter.Clicked) {
-			if (stages[selectionIndex].isUnlocked()) {
-				System.out.println("loading "+stages[selectionIndex].getTitle());
-				stageManager.setStage(selectionIndex);
-				stageManager.startCurrentStage();
-			} else {
-				System.out.println(stages[selectionIndex].getTitle()+" (is locked)");
-			}
-		}
-		*/
 	}
 
-	public EventHandler<KeyEvent> keyEventEventHandler = new EventHandler<KeyEvent>() {
+	public void addKeyEventHandlers() {
+		Game.input.addEventHandler(KeyEvent.KEY_PRESSED, keyEventEventHandler);
+	}
+
+	public void removeKeyEventHandlers() {
+		Game.input.removeEventHandler(KeyEvent.KEY_PRESSED, keyEventEventHandler);
+	}
+
+	private EventHandler<KeyEvent> keyEventEventHandler = new EventHandler<KeyEvent>() {
 		@Override
 		public void handle(KeyEvent event) {
 			if (event.getCode() == KeyCode.S) {
 				incListIndex();
 			} else if (event.getCode() == KeyCode.W) {
 				decListIndex();
+			} else if (event.getCode() == KeyCode.ENTER) {
+				if (stages[selectionIndex].isUnlocked()) {
+					System.out.println("loading "+stages[selectionIndex].getTitle());
+					stageManager.setStage(selectionIndex);
+					stageManager.startCurrentStage();
+				} else {
+					System.out.println(stages[selectionIndex].getTitle()+" (is locked)");
+				}
 			}
 		}
 	};
@@ -158,5 +159,18 @@ public class StageMenu {
 			total += 1;
 		}
 		return total;
+	}
+
+	public boolean isOpen() {
+		return open;
+	}
+
+	public void setOpen(boolean open) {
+		this.open = open;
+		if (open) {
+			addKeyEventHandlers();
+		} else {
+			removeKeyEventHandlers();
+		}
 	}
 }

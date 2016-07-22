@@ -35,6 +35,10 @@ public class GameInputHandler {
 		scene.addEventHandler(keyEvent, eventHandler);
 	}
 
+	public void removeEventHandler(EventType<KeyEvent> keyEvent, EventHandler<KeyEvent> eventHandler) {
+		scene.removeEventHandler(keyEvent, eventHandler);
+	}
+
 	/*
 	public EventHandler<KeyEvent> onPressed = new EventHandler<KeyEvent>() {
 		@Override

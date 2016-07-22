@@ -19,7 +19,6 @@ public class StageManager {
 	private int currentStageIndex = -1;
 	private boolean stageTransitioning = false;
 	private long startStageTransitionTime;
-	public boolean stageMenuOpen = true;
 	private StageMenu stageMenu;
 	
 	public StageManager() {
@@ -52,7 +51,7 @@ public class StageManager {
 		currentStage = stages.get(currentStageIndex);
 		currentStage.setLocked(false);
 		currentStage.loadRes();
-		stageMenuOpen = false;
+		stageMenu.setOpen(false);
 		stageTransitioning = true;
 		startStageTransitionTime = System.currentTimeMillis();
 	}
@@ -104,7 +103,7 @@ public class StageManager {
 	
 	public void update(float deltaTime) {
 		
-		if (stageMenuOpen) {
+		if (stageMenu.isOpen()) {
 			stageMenu.update();
 			return;
 		}
@@ -120,7 +119,7 @@ public class StageManager {
 	}
 	
 	public void render(GraphicsContext graphicsContext) {
-		if (stageMenuOpen) {
+		if (stageMenu.isOpen()) {
 			stageMenu.render(graphicsContext);
 			return;
 		}
@@ -160,10 +159,10 @@ public class StageManager {
 	}
 	
 	public void openStageMenu() {
-		if (stageMenuOpen) Game.quit();
+		if (stageMenu.isOpen()) Game.quit();
 		resetCurrentStage();
 		stageTransitioning = false;
-		stageMenuOpen = true;
+		stageMenu.setOpen(true);
 	}
 	
 	private boolean stageTransitioningTimeOver() {
