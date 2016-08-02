@@ -10,7 +10,10 @@ import game.stage.Stage;
 
 import java.util.ArrayList;
 
+import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import utils.Vector2;
 
@@ -34,6 +37,7 @@ public class Player extends Mob {
 		//setHeight((int)character.sprite.getHeight());
 		hitboxDiametre = getWidth()/2;
 		mobType = MobType.PLAYER;
+		Game.input.setOnKeyPressedEventHandler(keyEventHandler);
 	}
 	
 	@Override
@@ -78,7 +82,7 @@ public class Player extends Mob {
 		}
 		*/
 
-		//move(direction, deltaTime);
+		move(direction, deltaTime);
 		
 		checkWindowBoundries();
 
@@ -86,14 +90,17 @@ public class Player extends Mob {
 		case FORWARD:
 			//			animation.reset();
 			animation = character.movingForwardAnimation;
+			System.out.println("FORWARD");
 			break;
 		case RIGHT:
 			//			animation.reset();
 			animation = character.movingRightAnimation;
+			System.out.println("RIGHT");
 			break;
 		case LEFT:
 			//			animation.reset();
 			animation = character.movingLeftAnimation;
+			System.out.println("LEFT");
 			break;
 		default:
 			break;
@@ -119,7 +126,28 @@ public class Player extends Mob {
 			}
 		}
 	}
-	
+
+	public EventHandler<KeyEvent> keyEventHandler = new EventHandler<KeyEvent>() {
+		@Override
+		public void handle(KeyEvent event) {
+			if (event.getCode() == KeyCode.W || event.getCode() == KeyCode.UP) {
+				currentDir = dir.FORWARD;
+			}
+
+			if (event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT) {
+				currentDir = dir.LEFT;
+			}
+
+			if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT) {
+				currentDir = dir.RIGHT;
+			}
+
+			if (event.getCode() == KeyCode.S || event.getCode() == KeyCode.DOWN) {
+				currentDir = dir.DOWN;
+			}
+		}
+	};
+
 	public boolean bulletIntersectsHitOval(Bullet bullet) {
 		if (bullet == null) {return false;}
 		boolean intersects = true;

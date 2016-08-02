@@ -15,7 +15,6 @@ public class Window extends Application {
     public static int Width = 800;
     public static int Height = 600;
     public static Game game;
-    private static Scene rootScene;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -28,16 +27,12 @@ public class Window extends Application {
         AnchorPane.setRightAnchor(anchorPane, 0.0);
         AnchorPane.setLeftAnchor(anchorPane, 0.0);
         AnchorPane.setBottomAnchor(anchorPane, 0.0);
-        rootScene = new Scene(anchorPane);
+        Scene rootScene = new Scene(anchorPane);
+        Game.input = new GameInputHandler(rootScene);
+        game = new Game();
         primaryStage.setScene(rootScene);
         primaryStage.show();
-        game = new Game();
-        Game.input = new GameInputHandler(rootScene);
         game.start();
-    }
-
-    public static Scene getScene() {
-         return rootScene;
     }
 
     @Override

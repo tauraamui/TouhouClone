@@ -39,6 +39,10 @@ public class Game extends AnimationTimer {
 		stageManager = new StageManager();
 	}
 
+	public Game() {
+		stageManager = new StageManager();
+	}
+
 	@Override
 	public void start() {
 		super.start();

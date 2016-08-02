@@ -18,7 +18,8 @@ import java.util.ArrayList;
 public class StageMenu {
 
 	private StageManager stageManager;
-	private boolean open = true;
+
+	public boolean open = false;
 	private int selectionIndex = 0;
 	private Font stageTitleFont = Font.font("Calibri", 20);
 	private FontMetrics fontMetrics;
@@ -33,7 +34,7 @@ public class StageMenu {
 	public StageMenu(StageManager stageManager) {
 
 		fontMetrics = Toolkit.getToolkit().getFontLoader().getFontMetrics(stageTitleFont);
-		addKeyEventHandlers();
+
 		this.stageManager = stageManager;
 		stages = new Stage[stageManager.getStages().size()];
 		for (int i = 0; i < stages.length; i++) {
@@ -47,24 +48,25 @@ public class StageMenu {
 
 		checkSelectionIndexBounds();
 		populateListToRender();
+
+		/*
+		if (Game.gameinput.Keyboard.Enter.Clicked) {
+			if (stages[selectionIndex].isUnlocked()) {
+				stageManager.setStage(selectionIndex);
+				stageManager.stageMenuOpen = false;
+			} else {
+				System.out.println(stages[selectionIndex].getTitle()+" (is locked)");
+			}
+		}
+		*/
 	}
 
-	public void addKeyEventHandlers() {
-		Game.input.addEventHandler(KeyEvent.KEY_PRESSED, keyEventEventHandler);
-	}
-
-	public void removeKeyEventHandlers() {
-		Game.input.removeEventHandler(KeyEvent.KEY_PRESSED, keyEventEventHandler);
-	}
-
-	private EventHandler<KeyEvent> keyEventEventHandler = new EventHandler<KeyEvent>() {
+	private EventHandler<KeyEvent> keyEventHandler = new EventHandler<KeyEvent>() {
 		@Override
 		public void handle(KeyEvent event) {
-			if (event.getCode() == KeyCode.S) {
-				incListIndex();
-			} else if (event.getCode() == KeyCode.W) {
-				decListIndex();
-			} else if (event.getCode() == KeyCode.ENTER) {
+			if (event.getCode() == KeyCode.S || event.getCode() == KeyCode.DOWN) incListIndex();
+			if (event.getCode() == KeyCode.W || event.getCode() == KeyCode.UP) decListIndex();
+			if (event.getCode() == KeyCode.ENTER) {
 				if (stages[selectionIndex].isUnlocked()) {
 					System.out.println("loading "+stages[selectionIndex].getTitle());
 					stageManager.setStage(selectionIndex);
@@ -161,16 +163,24 @@ public class StageMenu {
 		return total;
 	}
 
+	private void checkKeyEventHandler() {
+		if (isOpen()) {
+			Game.input.setOnKeyPressedEventHandler(keyEventHandler);
+		} else {
+			Game.input.setOnKeyPressedEventHandler(null);
+		}
+	}
+
+
+
 	public boolean isOpen() {
 		return open;
 	}
 
 	public void setOpen(boolean open) {
 		this.open = open;
-		if (open) {
-			addKeyEventHandlers();
-		} else {
-			removeKeyEventHandlers();
-		}
+		checkKeyEventHandler();
 	}
+
+
 }

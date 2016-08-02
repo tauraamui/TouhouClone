@@ -30,6 +30,7 @@ public class StageManager {
 		//for testing duhhhh
 		//THIS MUST BE LAST MEEP MEEP
 		stageMenu = new StageMenu(this);
+		stageMenu.setOpen(true);
 	}
 	
 	public void nextStage() {
