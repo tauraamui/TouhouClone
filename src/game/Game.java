@@ -9,6 +9,8 @@ import userinterface.Window;
 import userinterface.io.GameInputHandler;
 import utils.Profiler;
 
+import static userinterface.Window.*;
+
 public class Game extends AnimationTimer {
 	
 	public static float DELTATIME = 0.16F;
@@ -35,11 +37,7 @@ public class Game extends AnimationTimer {
 	private long lastTickedInput = 0;
 
 	public Game() {
-		input = new GameInputHandler(Window.getScene());
-		stageManager = new StageManager();
-	}
-
-	public Game() {
+		input = new GameInputHandler(getScene());
 		stageManager = new StageManager();
 	}
 
