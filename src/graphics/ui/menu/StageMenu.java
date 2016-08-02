@@ -25,7 +25,6 @@ public class StageMenu {
 	private FontMetrics fontMetrics;
 	private Stage[] stages = new Stage[]{};
 	private ArrayList<Stage> stageList = new ArrayList<Stage>();
-	private long lastStageListIndexSwitch = 0;
 	private int startIndex = 0;
 	private int listTitleHeightSpacing = 35;
 	private int listHeight = 0;
@@ -40,25 +39,7 @@ public class StageMenu {
 		for (int i = 0; i < stages.length; i++) {
 			stages[i] = stageManager.getStages().get(i);
 		}
-		lastStageListIndexSwitch = System.currentTimeMillis();
 		populateListToRender();
-	}
-
-	public void update() {
-
-		checkSelectionIndexBounds();
-		populateListToRender();
-
-		/*
-		if (Game.gameinput.Keyboard.Enter.Clicked) {
-			if (stages[selectionIndex].isUnlocked()) {
-				stageManager.setStage(selectionIndex);
-				stageManager.stageMenuOpen = false;
-			} else {
-				System.out.println(stages[selectionIndex].getTitle()+" (is locked)");
-			}
-		}
-		*/
 	}
 
 	private EventHandler<KeyEvent> keyEventHandler = new EventHandler<KeyEvent>() {
@@ -78,24 +59,23 @@ public class StageMenu {
 		}
 	};
 
+	public void update() {}
+
 	private void checkSelectionIndexBounds() {
-		if (selectionIndex < startIndex) { if (startIndex == 0) selectionIndex = startIndex; }
-		if (selectionIndex >= stageList.size()) selectionIndex = stageList.size()-1;
-//		if (selectionIndex >= stages.length) selectionIndex = 0;
-//		else if (selectionIndex < 0) selectionIndex = stages.length-1;
-		lastStageListIndexSwitch = System.currentTimeMillis();
+		if (selectionIndex + 1 > stageList.size()) selectionIndex = startIndex;
+		if (selectionIndex < startIndex) { selectionIndex = stageList.size()-1; }
 	}
 
 	private void incListIndex() {
 		selectionIndex++;
+		checkSelectionIndexBounds();
 		populateListToRender();
-		lastStageListIndexSwitch = System.currentTimeMillis();
 	}
 
 	private void decListIndex() {
 		selectionIndex--;
+		checkSelectionIndexBounds();
 		populateListToRender();
-		lastStageListIndexSwitch = System.currentTimeMillis();
 	}
 
 	public void render(GraphicsContext graphicsContext) {

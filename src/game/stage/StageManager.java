@@ -32,7 +32,7 @@ public class StageManager {
 		stageMenu = new StageMenu(this);
 		stageMenu.setOpen(true);
 	}
-	
+
 	public void nextStage() {
 		if (currentStageIndex + 1 >= stages.size()) return;
 		resetCurrentStage();
