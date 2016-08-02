@@ -26,6 +26,7 @@ public class Stage {
 	protected boolean locked = true;
 	protected StageBackground stageBackground;
 	protected String stageBackgroundPath;
+	private long startStageTransitionTime;
 	protected Image titleScreenBackground;
 	protected String titleScreenBackgroundPath;
 	protected Random2 randomGenerator = new Random2();
@@ -33,6 +34,7 @@ public class Stage {
 	protected ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 	protected ArrayList<Mob> mobs = new ArrayList<Mob>();
 	protected ArrayList<ProjectileEmitter> projectileEmitters = new ArrayList<ProjectileEmitter>();
+	protected boolean transitioning = false;
 	public int grazePoints = 0;
 	protected boolean stageFinished = false;
 	protected StageInfoPanel stageInfoPanel = new StageInfoPanel(this);
@@ -77,6 +79,10 @@ public class Stage {
 	public void addProjectileEmitter(ProjectileEmitter projectileEmitter) {
 		addEntity(projectileEmitter);
 	}
+
+	protected boolean stageTransitioningTimeOver() {
+		return (System.currentTimeMillis()-startStageTransitionTime >= 3780);
+	}
 	
 	public void update(float deltaTime) {
 		if (Game.isNotPaused()) {
@@ -94,6 +100,8 @@ public class Stage {
 			totalTickTime = System.nanoTime()-before;
 		}
 	}
+
+	public void updateTransition(float deltaTime) {}
 	
 	public void render(GraphicsContext graphicsContext) {
 		graphicsContext.setFill(Color.KHAKI);
@@ -120,7 +128,24 @@ public class Stage {
 			graphicsContext.strokeText("PAUSED", (Window.Width/2)-(textWidth/2), (Window.Height/2)-(textHeight/2));
 		}
 	}
-	
+
+	public void renderTransition(GraphicsContext graphicsContext) {
+		/*
+		graphicsContext.fillRect(0, 0, Window.Width, Window.Height);
+		if (!(getTitleScreenBackground() == null)) {
+			graphicsContext.drawImage(getTitleScreenBackground(), 0, 0, Window.Width, Window.Height);
+		} else {
+			graphicsContext.setFill(Color.WHITE);
+			graphicsContext.fillRect(0, 0, Window.Width, Window.Height);
+		}
+		graphicsContext.setFill(Color.BLACK);
+		graphicsContext.setFont(Font.getDefault());
+		String stageTitle = getTitle();
+
+		graphicsContext.strokeText(stageTitle, Window.Width/2-graphicsContext.getFont().getSize()/2, (Window.Height/2)-10);
+		*/
+	}
+
 	public void loadRes() {}
 	
 	public ArrayList<Entity> getEntities() {return entities;}
@@ -168,9 +193,26 @@ public class Stage {
 		return !locked;
 	}
 
+	public boolean isTransitioning() {
+		return transitioning;
+	}
+
+	public void setTransitioning(boolean transitioning) {
+		this.transitioning = transitioning;
+	}
+
+	public long getStartStageTransitionTime() {
+		return startStageTransitionTime;
+	}
+
+	public void setStartStageTransitionTime(long startStageTransitionTime) {
+		this.startStageTransitionTime = startStageTransitionTime;
+	}
+
 	public Stage setLocked(boolean locked) {
 		this.locked = locked;
 		return this;
+
 	}
 	
 	public Stage setTitle(String title) {

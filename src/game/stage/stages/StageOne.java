@@ -4,6 +4,10 @@ import game.Game;
 import game.entities.Entity;
 import game.entities.mobs.StageEnemy;
 import game.stage.Stage;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import userinterface.Window;
 import utils.Timing;
 import utils.Vector2;
 import utils.resources.ResourceHandler;
@@ -17,6 +21,9 @@ public class StageOne extends Stage {
 	protected long enemiesToDestoryStageOne = 60;
 	protected float destroyedEnemies = 0;
 	protected float enemiesToDestory = 30;
+
+	protected double stageTitleX = Window.Width;
+	protected double stageTitleY = Window.Height/2-10;
 
 	public StageOne() {
 		title = "Stage 1: Perfect Cherry Blossom";
@@ -36,6 +43,29 @@ public class StageOne extends Stage {
 			lastSpawned = Timing.getCurrentTimeMillis();
 		}
 		if (destroyedEnemies >= enemiesToDestory) stageFinished = true;
+	}
+
+	@Override
+	public void updateTransition(float deltaTime) {
+		if (stageTitleX > Window.Width/2-15) stageTitleX -= 8;
+		System.out.println(stageTitleX);
+	}
+
+	@Override
+	public void renderTransition(GraphicsContext graphicsContext) {
+		graphicsContext.fillRect(0, 0, Window.Width, Window.Height);
+		if (!(getTitleScreenBackground() == null)) {
+			graphicsContext.drawImage(getTitleScreenBackground(), 0, 0, Window.Width, Window.Height);
+		} else {
+			graphicsContext.setFill(Color.WHITE);
+			graphicsContext.fillRect(0, 0, Window.Width, Window.Height);
+		}
+		graphicsContext.setFill(Color.BLACK);
+		graphicsContext.setFont(Font.getDefault());
+		String stageTitle = getTitle();
+
+		graphicsContext.strokeText(stageTitle, stageTitleX, stageTitleY);
+		//graphicsContext.strokeText(stageTitle, Window.Width/2-graphicsContext.getFont().getSize()/2, (Window.Height/2)-10);
 	}
 
 	@Override

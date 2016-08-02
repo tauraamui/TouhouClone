@@ -18,7 +18,6 @@ public class StageManager {
 	private Stage currentStage = null;
 	private int currentStageIndex = -1;
 	private boolean stageTransitioning = false;
-	private long startStageTransitionTime;
 	private StageMenu stageMenu;
 	
 	public StageManager() {
@@ -53,8 +52,8 @@ public class StageManager {
 		currentStage.setLocked(false);
 		currentStage.loadRes();
 		stageMenu.setOpen(false);
-		stageTransitioning = true;
-		startStageTransitionTime = System.currentTimeMillis();
+		currentStage.setTransitioning(true);
+		currentStage.setStartStageTransitionTime(System.currentTimeMillis());
 	}
 	
 	public void setStage(int stageIndex) {
@@ -68,8 +67,8 @@ public class StageManager {
 			resetCurrentStage();
 			currentStageIndex = stageIndex;
 			currentStage = stages.get(currentStageIndex);
-			stageTransitioning = true;
-			startStageTransitionTime = System.currentTimeMillis();
+			currentStage.setTransitioning(true);
+			currentStage.setStartStageTransitionTime(System.currentTimeMillis());
 		}
 	}
 	
@@ -108,11 +107,13 @@ public class StageManager {
 			stageMenu.update();
 			return;
 		}
+
 		if (currentStage == null) return;
 		//whilst transitioning twixt stages, don't update current stage
-		if (stageTransitioning) {
-			if (stageTransitioningTimeOver()) {
-				stageTransitioning = false;
+		if (currentStage.isTransitioning()) {
+			currentStage.updateTransition(deltaTime);
+			if (currentStage.stageTransitioningTimeOver()) {
+				currentStage.setTransitioning(false);
 			}
 		} else {
 			currentStage.update(deltaTime);
@@ -120,10 +121,23 @@ public class StageManager {
 	}
 	
 	public void render(GraphicsContext graphicsContext) {
+
 		if (stageMenu.isOpen()) {
 			stageMenu.render(graphicsContext);
 			return;
 		}
+
+		if (currentStage == null) return;
+
+		if (currentStage.isTransitioning()) {
+			if (!currentStage.stageTransitioningTimeOver()) {
+				currentStage.renderTransition(graphicsContext);
+			}
+		} else {
+			currentStage.render(graphicsContext);
+		}
+
+		/*
 		if (currentStage == null) return;
 		if (stageTransitioning) {
 			if (!stageTransitioningTimeOver()) {
@@ -143,6 +157,7 @@ public class StageManager {
 		} else {
 			currentStage.render(graphicsContext);
 		}
+		*/
 	}
 	
 	public void addEntity(Entity entity) {
@@ -164,9 +179,5 @@ public class StageManager {
 		resetCurrentStage();
 		stageTransitioning = false;
 		stageMenu.setOpen(true);
-	}
-	
-	private boolean stageTransitioningTimeOver() {
-		return (System.currentTimeMillis()-startStageTransitionTime >= 3780);
 	}
 }
